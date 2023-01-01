@@ -1,0 +1,32 @@
+class Solution {
+public:
+
+     long long calculate(string ch,long long  a,long long b)
+    {
+       if(ch=="+")
+       return a+b;
+       else if(ch=="-")
+       return b-a;
+       else if(ch=="*")
+       return a*b;
+       return b/a;
+    }
+    int evalRPN(vector<string>& tokens) {
+        stack<long long>store;
+        for(int i=0;i<tokens.size();i++)
+        {
+            string ch=tokens[i];
+            if(ch=="+"||ch=="-"||ch=="/"||ch=="%"||ch=="*")
+            {
+                int a,b;long long ans;
+                a=store.top();store.pop();
+                b=store.top();store.pop();
+                ans=calculate(ch,a,b);
+                store.push(ans);
+            }
+            else
+            store.push(stoi(ch));
+        }
+        return store.top();
+    }
+};
