@@ -1,0 +1,40 @@
+class Solution {
+public:
+
+    bool dfs(int n , vector<int>adj[] , vector<int>&vis, vector<int>&path_vis , int i){
+        vis[i]=1;
+        path_vis[i]=1;
+
+        for (auto it : adj[i]) {
+			if (!vis[it]) {
+				if (dfs(n,adj, vis, path_vis,it) == true)
+					return true;
+			}
+			else if (path_vis[it]) {
+				return true;
+			}
+		}
+
+		path_vis[i] = 0;
+		return false;
+    }
+
+    bool canFinish(int n, vector<vector<int>>& edges) {
+        int m=edges.size();
+        vector<int>adj[n+1];
+        for(int i=0;i<m;i++){
+           adj[edges[i][0]].push_back(edges[i][1]);
+        }
+
+
+        vector<int>vis(n,0);
+        vector<int>path_vis(n,0);
+
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                if(dfs(n,adj,vis,path_vis,i)) return false;
+            }
+        }
+        return true;
+    }
+};
