@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numberOfSubstrings(string s) {
+        int n = s.length();
+
+        int ind_a=-1 , ind_b=-1 , ind_c=-1;
+        int cnt=0;
+
+        for(int i=0;i<n;i++){
+            if(s[i]=='a')ind_a=i;
+            else if(s[i]=='b')ind_b=i;
+            else ind_c=i;
+
+            if(i>1) cnt+=(min(ind_a,min(ind_b,ind_c)))+1;
+        }
+
+        return cnt;
+    }
+};
