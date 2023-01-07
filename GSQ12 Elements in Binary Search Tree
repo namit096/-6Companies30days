@@ -1,0 +1,83 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    void merge(vector<int>&arr,int l , int m, int r){
+        vector <int> v(r-l+1);
+        int i = l, j = m+1, k = 0;
+        while(i <= m && j <= r){
+            if(arr[i] < arr[j])
+                v[k++] = arr[i++];
+            else
+                v[k++] = arr[j++];
+        }
+        while(i <= m)
+            v[k++] = arr[i++];
+        while(j <= r)
+            v[k++] = arr[j++];
+        for(int i = l; i<=r; i++)
+            arr[i] = v[i-l];
+    }
+
+    void merge_sort(vector<int>&nums,int low , int high){
+        if(low>=high) return ;
+
+        int mid = low + (high-low)/2;
+        merge_sort(nums,low,mid);
+        merge_sort(nums,mid+1,high);
+        merge(nums,low,mid,high);
+    }
+
+    void solve(TreeNode* root , vector<int>&num){
+      if(root==NULL)return;
+
+      solve(root->left,num);
+      num.push_back(root->val);
+      solve(root->right,num);
+
+    }
+
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int>num1,num2;
+        solve(root1,num1);
+        solve(root2,num2);
+
+        vector<int>v(num1.size()+num2.size(),0);
+        int i=0,j=0,k=0;
+
+        while(i < num1.size() && j < num2.size()){
+            if(num1[i] < num2[j])
+                v[k++] = num1[i++];
+            else
+                v[k++] = num2[j++];
+        }
+        while(i < num1.size())
+            v[k++] = num1[i++];
+        while(j < num2.size())
+            v[k++] = num2[j++];
+
+        return v;
+
+        // vector<int>nums;
+        // for(int i=0;i<num1.size();i++){
+        //     nums.push_back(num1[i]);
+        // }
+        // for(int i=0;i<num2.size();i++){
+        //     nums.push_back(num2[i]);
+        // }
+
+        // merge_sort(nums,0,nums.size()-1);
+
+        // return nums;
+    }
+};
