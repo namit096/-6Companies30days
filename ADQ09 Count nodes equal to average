@@ -1,0 +1,25 @@
+class Solution {
+public:
+
+    pair<int,int> dfs(TreeNode* root ,  int &ans){
+        if(root==NULL) return {0,0};
+        // n=0;
+        pair<int,int> lh = dfs(root->left,ans);
+        pair<int,int> rh = dfs(root->right,ans);
+        
+        int sum=root->val+lh.first+rh.first;
+        int n=1+lh.second+rh.second;
+        int avg = sum/n;
+        if(avg == root->val){
+            // cout<<avg;
+            ans++;
+        }
+        return {sum,n};
+    }
+ 
+    int averageOfSubtree(TreeNode* root) {
+        int sum=0 , ans=0;
+        dfs(root,ans);
+        return ans;
+    }
+};
